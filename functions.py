@@ -5,7 +5,7 @@ from email.mime.text import MIMEText
 
 from twitnewsconfig import *
 
-def send_tweet_mail(tweet_id):
+def send_tweet_mail(tweet_id, tweet_retweets):
 	auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
 	auth.set_access_token(ACCESS_KEY, ACCESS_SECRET)
 
@@ -13,10 +13,17 @@ def send_tweet_mail(tweet_id):
 
 	tweet = api.get_status(tweet_id, tweet_mode='extended')
 
+	if (tweet_retweets == False):
+		if (tweet.retweeted):
+			return False
+
 	tweet_img_url = ""
+	tweet_has_img = False
 
 	if (hasattr(tweet, 'extended_entities')):
 		tweet_img_url = tweet.extended_entities['media'][0]['media_url']
+		tweet_has_img = True
+
 
 	#print(api.rate_limit_status())
 
@@ -65,3 +72,5 @@ def send_tweet_mail(tweet_id):
 	mail.login(smtp_user, smtp_pass)
 	mail.sendmail(me, you, msg.as_string())
 	mail.quit()
+
+	return True

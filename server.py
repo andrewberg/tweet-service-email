@@ -7,7 +7,7 @@ from functions import *
 def call():
 	if request.method == 'POST':
 		tid = request.form['tweet-id']
-		send_tweet_mail(tid)
+		send_tweet_mail(tid, False) # No retweets, "FALSE"
 		return 'SUCCESS'
 
 	return "ERROR"
