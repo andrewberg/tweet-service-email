@@ -5,12 +5,16 @@ from functions import *
 
 @app.route("/tweet-send", methods = ['POST', 'GET'])
 def call():
+	retval = False
+
 	if request.method == 'POST':
 		tid = request.form['tweet-id']
-		send_tweet_mail(tid, False) # No retweets, "FALSE"
-		return 'SUCCESS'
+		retval = send_tweet_mail(tid, False) # No retweets, "FALSE"
 
-	return "ERROR"
+	if retval:
+		return "SUCCESS"
+	else:
+		return "FAILURE - Possible retweet"
 
 if __name__ == '__main__':
     app.run(host= '0.0.0.0')

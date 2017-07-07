@@ -14,7 +14,7 @@ def send_tweet_mail(tweet_id, tweet_retweets):
 	tweet = api.get_status(tweet_id, tweet_mode='extended')
 
 	if (tweet_retweets == False):
-		if (tweet.retweeted):
+		if (hasattr(tweet, 'retweeted_status')):
 			return False
 
 	tweet_img_url = ""
